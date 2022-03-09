@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "id": "1490000000000000000",
+            "text": "hogehoge"
+        },
+        {
+            "id": "1491111111111111111",
+            "text": "hugahuga"
+        },
+        {
+            "id": "1942222222222222222",
+            "text": "sample"
+        }
+    ],
+    "meta": {
+        "result_count": 100,
+        "next_token": "714xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}

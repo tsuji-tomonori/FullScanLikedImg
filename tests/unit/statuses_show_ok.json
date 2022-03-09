@@ -1,0 +1,205 @@
+{
+    "created_at": "Sat Feb 19 11:11:44 +0000 2022",
+    "id": 1499999999999999999,
+    "id_str": "1499999999999999999",
+    "text": "xxxxxxxx",
+    "truncated": false,
+    "entities": {
+        "hashtags": [
+            {
+                "text": "xxxx",
+                "indices": [
+                    90,
+                    99
+                ]
+            },
+            {
+                "text": "yyyy",
+                "indices": [
+                    100,
+                    106
+                ]
+            }
+        ],
+        "symbols": [],
+        "user_mentions": [],
+        "urls": [],
+        "media": [
+            {
+                "id": 1488888888888888888,
+                "id_str": "1488888888888888888",
+                "indices": [
+                    107,
+                    130
+                ],
+                "media_url": "http://pbs.twimg.com/media/FLxxxxxxxxxxxxx.jpg",
+                "media_url_https": "https://pbs.twimg.com/media/FLxxxxxxxxxxxxx.jpg",
+                "url": "https://t.co/7l17wJjCCH",
+                "display_url": "pic.twitter.com/7l17wJjCCH",
+                "expanded_url": "https://twitter.com/morikuraen/status/1499999999999999999/photo/1",
+                "type": "photo",
+                "sizes": {
+                    "thumb": {
+                        "w": 150,
+                        "h": 150,
+                        "resize": "crop"
+                    },
+                    "small": {
+                        "w": 680,
+                        "h": 383,
+                        "resize": "fit"
+                    },
+                    "medium": {
+                        "w": 1200,
+                        "h": 675,
+                        "resize": "fit"
+                    },
+                    "large": {
+                        "w": 1500,
+                        "h": 844,
+                        "resize": "fit"
+                    }
+                }
+            }
+        ]
+    },
+    "extended_entities": {
+        "media": [
+            {
+                "id": 1488888888888888888,
+                "id_str": "1488888888888888888",
+                "indices": [
+                    107,
+                    130
+                ],
+                "media_url": "http://pbs.twimg.com/media/FLxxxxxxxxxxxxx.jpg",
+                "media_url_https": "https://pbs.twimg.com/media/FLxxxxxxxxxxxxx.jpg",
+                "url": "https://t.co/7l17wJjCCH",
+                "display_url": "pic.twitter.com/7l17wJjCCH",
+                "expanded_url": "https://twitter.com/morikuraen/status/1499999999999999999/photo/1",
+                "type": "photo",
+                "sizes": {
+                    "thumb": {
+                        "w": 150,
+                        "h": 150,
+                        "resize": "crop"
+                    },
+                    "small": {
+                        "w": 680,
+                        "h": 383,
+                        "resize": "fit"
+                    },
+                    "medium": {
+                        "w": 1200,
+                        "h": 675,
+                        "resize": "fit"
+                    },
+                    "large": {
+                        "w": 1500,
+                        "h": 844,
+                        "resize": "fit"
+                    }
+                }
+            }
+        ]
+    },
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+        "id": 41999999,
+        "id_str": "41999999",
+        "name": "xxxx",
+        "screen_name": "xxxxxxxxxxxxx",
+        "location": "",
+        "description": "xxxxxxxxxxxxx",
+        "url": "xxxxxxxx",
+        "entities": {
+            "url": {
+                "urls": [
+                    {
+                        "url": "xxxxxxxx",
+                        "expanded_url": "xxxxxxxx",
+                        "display_url": "xxxxxxxxm",
+                        "indices": [
+                            0,
+                            23
+                        ]
+                    }
+                ]
+            },
+            "description": {
+                "urls": [
+                    {
+                        "url": "xxxxxxxx",
+                        "expanded_url": "xxxxxxxx",
+                        "display_url": "xxxxxxxx",
+                        "indices": [
+                            100,
+                            123
+                        ]
+                    },
+                    {
+                        "url": "xxxxxxxx",
+                        "expanded_url": "xxxxxxxx",
+                        "display_url": "xxxxxxxx",
+                        "indices": [
+                            130,
+                            153
+                        ]
+                    }
+                ]
+            }
+        },
+        "protected": false,
+        "followers_count": 437589,
+        "friends_count": 1340,
+        "listed_count": 5855,
+        "created_at": "Wed May 20 13:04:37 +0000 2009",
+        "favourites_count": 31764,
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 23361,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "is_translation_enabled": false,
+        "profile_background_color": "C0DEED",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1299999999999999999/pfxxxxxx_normal.jpg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1299999999999999999/pfxxxxxx_normal.jpg",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/41999999/1637020821",
+        "profile_link_color": "1DA1F2",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "has_extended_profile": true,
+        "default_profile": true,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null,
+        "translator_type": "none",
+        "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 3557,
+    "favorite_count": 15577,
+    "favorited": false,
+    "retweeted": false,
+    "possibly_sensitive": false,
+    "possibly_sensitive_appealable": false,
+    "lang": "ja"
+}
