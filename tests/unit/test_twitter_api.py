@@ -35,7 +35,7 @@ def build_test_file_path(file_name: str) -> Path:
     return Path.cwd() / "tests" / "unit" / file_name
 
 
-class TwitterApiTest(unittest.TestCase):
+class TwitterApiInitTest(unittest.TestCase):
 
     def test_init(self):
         # 認証周り
@@ -47,6 +47,9 @@ class TwitterApiTest(unittest.TestCase):
         self.assertEqual(api.bearer_token, "sample")
         self.assertTrue("Authorization" in api.header.keys())
         self.assertEqual(api.header["Authorization"], "Bearer sample")
+
+
+class TwitterApiRescponce(unittest.TestCase):
 
     def test_responce_200(self):
         # 初期化
@@ -86,6 +89,20 @@ class TwitterApiTest(unittest.TestCase):
         self.assertIn('"JSONDecodeError"', str(e.exception))
         self.assertIn('"Response": "sample"', str(e.exception))
         self.assertIn('"pagination_token": "hogehoge"', str(e.exception))
+
+    def _responce_test(self, status_code: int, exception: Exception):
+        # 初期化
+        api = TwitterApi("sample")
+        res = responce(status_code, build_test_file_path(
+            "statuses_show_error.json"))
+        # テストの実行
+        with self.assertRaises(exception) as e:
+            api._responce(res, param())
+        # アサーション
+        self.assertIn('"pagination_token": "hogehoge"', str(e.exception))
+
+
+class TwitterApiGetLikedTweetsTest(unittest.TestCase):
 
     @mock.patch("requests.get")
     def test_get_liked_tweets(self, request_get_mock: mock.Mock):
@@ -142,6 +159,9 @@ class TwitterApiTest(unittest.TestCase):
         self.assertEqual(time_sleep_mock.call_count, 3)
         for args in time_sleep_mock.call_args_list:
             self.assertEqual(args[0][0], 15)
+
+
+class TwitterApiGetStatusesShow(unittest.TestCase):
 
     @mock.patch("requests.get")
     def test_get_statuses_show_ok(self, request_get_mock: mock.Mock):
@@ -231,17 +251,6 @@ class TwitterApiTest(unittest.TestCase):
         # アサーション
         self.assertEqual(e.exception.status_code, 400)
         self.assertEqual(time_sleep_mock.call_count, 0)
-
-    def _responce_test(self, status_code: int, exception: Exception):
-        # 初期化
-        api = TwitterApi("sample")
-        res = responce(status_code, build_test_file_path(
-            "statuses_show_error.json"))
-        # テストの実行
-        with self.assertRaises(exception) as e:
-            api._responce(res, param())
-        # アサーション
-        self.assertIn('"pagination_token": "hogehoge"', str(e.exception))
 
 
 if __name__ == "__main__":
