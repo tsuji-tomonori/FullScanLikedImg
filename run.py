@@ -165,6 +165,7 @@ class Action():
         page_token = self._aws_resource.get_pagetoken()
 
         while True:
+            print(f"start get liked tweets at {page_token}")
             ids = api.get_liked_tweets(
                 self._env_param.LIKED_USER_ID, page_token)
             # いいねが取得できなかった場合, 処理終了
