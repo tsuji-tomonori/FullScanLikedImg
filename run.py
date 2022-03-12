@@ -64,6 +64,7 @@ class AwsResource():
             Item={
                 "liked_user_id": self.env_param.LIKED_USER_ID,
                 "page_token": pagetoken,
+                "timestamp": now_isof(),
             }
         )
 
