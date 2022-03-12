@@ -19,7 +19,7 @@ class EnvironParamaters(NamedTuple):
     LIKED_USER_ID: str
     DB_NAME: str
     NEXT_TOKEN: str
-    DIR_NAME: str
+    OUTPUT_DIR: str
 
 
 class AwsResource():
@@ -215,11 +215,11 @@ if __name__ == "__main__":
         LIKED_USER_ID=os.environ["LIKED_USER_ID"],
         DB_NAME=os.environ["DB_NAME"],
         NEXT_TOKEN=os.getenv("NEXT_TOKEN", None),
-        DIR_NAME=os.environ["DIR_NAME"]
+        OUTPUT_DIR=os.environ["DIR_NAME"]
     )
     action = Action(
         env_param=param,
-        output_dir=Path.cwd() / param.DIR_NAME,
+        output_dir=Path(param.OUTPUT_DIR),
         next_token=param.NEXT_TOKEN
     )
 
