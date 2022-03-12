@@ -50,7 +50,7 @@ class TwitterApi:
         if res.status_code in [200, 304]:
             return res.json()
         try:
-            error = res.json() | params
+            error = {**res.json(), **params}
         except JSONDecodeError as e:
             error = params
             error["JSONDecodeError"] = str(e)
