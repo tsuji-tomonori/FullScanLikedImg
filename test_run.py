@@ -20,7 +20,7 @@ class RebuildUrlTest(unittest.TestCase):
             actual, "https://pbs.twimg.com/media/hogehoge?format=png&name=large")
 
 
-class BuildOutputPathTest(unittest.TestCase):
+class MakeOutputPathTest(unittest.TestCase):
 
     @mock.patch("run.Path.mkdir")
     def test_ok(self, path_mock: mock.Mock):
