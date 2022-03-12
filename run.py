@@ -190,9 +190,6 @@ class Action():
                     raise e
             page_token = ids["meta"]["next_token"]
             self._aws_resource.put_pagetoken(page_token)
-            # Too Many Requests 対策
-            print(f"sleep at 12 sec... next token is: {page_token}")
-            time.sleep(12)
 
     def _downdload_and_write_db(self, tweet_info: dict, output_dir: Path) -> None:
         id = tweet_info["id_str"]
@@ -225,6 +222,8 @@ class Action():
                     "write_time": write_time,
                 }
             )
+            # Too Many Requests 対策
+            time.sleep(3)
 
 
 if __name__ == "__main__":
