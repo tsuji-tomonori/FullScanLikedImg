@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import json
 import time
 
 import requests
-from requests.exceptions import Timeout, JSONDecodeError
+from requests.exceptions import JSONDecodeError, Timeout
 
 
 def retry(func):
