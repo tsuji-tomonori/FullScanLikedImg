@@ -39,8 +39,8 @@ class BuildOutputPathTest(unittest.TestCase):
         created_at = datetime.datetime.now()
         id = "123456789"
         index = 0
-        from run import build_output_path
+        from run import make_output_path
         # テストの実行
-        actual = build_output_path(output_dir, created_at, id, index)
+        actual = make_output_path(output_dir, created_at, id, index)
         # アサーション
         print(actual)

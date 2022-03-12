@@ -122,7 +122,7 @@ def rebuild_url(before_url: str) -> str:
     return f"{before_url[:-4]}?format=png&name=large"
 
 
-def build_output_path(output_dir: Path, created_at: datetime.datetime, id: str, index: int) -> Path:
+def make_output_path(output_dir: Path, created_at: datetime.datetime, id: str, index: int) -> Path:
     result = output_dir
     result.mkdir(exist_ok=True)
     result /= f"yyyy={created_at.year}"
@@ -131,8 +131,12 @@ def build_output_path(output_dir: Path, created_at: datetime.datetime, id: str, 
     result.mkdir(exist_ok=True)
     result /= f"dd={str(created_at.day).zfill(2)}"
     result.mkdir(exist_ok=True)
-    result /= f"{id}_{index}.png"
+    result /= f"{build_file_name_stem(id, index)}.png"
     return result
+
+
+def build_file_name_stem(id: str, index: int) -> str:
+    return f"{id}_{index}"
 
 
 def hashtags_to_str(hashtags: list) -> str:
@@ -204,17 +208,19 @@ class Action():
             # 投稿されたメディアが画像でない場合, 次のtweetへ
             if extended_entity["type"] != "photo":
                 continue
-            output_file = build_output_path(output_dir, created_at, id, idx)
+            output_file_stem = build_file_name_stem(id, idx)
             # すでに取得済みであれば, 次のtweetへ
-            if self._aws_resource.has_property_item(output_file.stem):
-                print(f"skip at {output_file}")
+            if self._aws_resource.has_property_item(output_file_stem):
+                print(f"skip at {output_file_stem}")
                 continue
             img = download_img(extended_entity["media_url_https"])
-            write_time = write_img(output_file, img)
-            print(f"write to img -> {output_file}")
+            output_file_path = make_output_path(
+                output_dir, created_at, id, idx)
+            write_time = write_img(output_file_path, img)
+            print(f"write to img -> {output_file_path}")
             self._aws_resource.put_property(
                 item={
-                    "partition_key": output_file.stem,
+                    "partition_key": output_file_stem,
                     "created_at": created_at.isoformat(),
                     "text": text,
                     "user_name": user_name,
