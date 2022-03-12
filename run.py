@@ -232,7 +232,7 @@ if __name__ == "__main__":
     param = EnvironParamaters(
         BEARER_TOKEN=os.environ["BEARER_TOKEN"],
         LIKED_USER_ID=os.environ["LIKED_USER_ID"],
-        PROPERTY_DB_NAME=os.environ["DB_NAME"],
+        PROPERTY_DB_NAME=os.environ["PROPERTY_DB_NAME"],
         PAGE_TOKE_DB_NAME=os.environ("PAGE_TOKE_DB_NAME"),
         OUTPUT_DIR=os.environ["DIR_NAME"]
     )
