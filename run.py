@@ -19,7 +19,6 @@ class EnvironParamaters(NamedTuple):
     LIKED_USER_ID: str
     PROPERTY_DB_NAME: str
     PAGE_TOKE_DB_NAME: str
-    NEXT_TOKEN: str
     OUTPUT_DIR: str
 
 
