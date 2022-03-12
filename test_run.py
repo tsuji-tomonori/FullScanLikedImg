@@ -37,3 +37,19 @@ class MakeOutputPathTest(unittest.TestCase):
         # アサーション
         self.assertEqual(actual, expect)
         self.assertEqual(len(path_mock.call_args_list), 4)
+
+
+class ToJstTimezoneTest(unittest.TestCase):
+
+    def test_ok(self):
+        # 初期化
+        timestr = "Sat Feb 19 11:11:44 +0000 2022"
+        format = "%a %b %d %H:%M:%S +0000 %Y"
+        expect = datetime.datetime(2022, 2, 19, 20, 11, 44).astimezone(
+            datetime.timezone(datetime.timedelta(hours=9)))
+        from run import to_jst_timezone
+        # テストの実行
+        actual = to_jst_timezone(timestr, format)
+        # アサーション
+        self.assertEqual(str(actual.tzinfo), "UTC+09:00")
+        self.assertEqual(actual, expect)
