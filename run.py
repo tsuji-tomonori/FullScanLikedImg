@@ -17,7 +17,8 @@ class EnvironParamaters(NamedTuple):
     # 環境変数
     BEARER_TOKEN: str
     LIKED_USER_ID: str
-    DB_NAME: str
+    PROPERTY_DB_NAME: str
+    PAGE_TOKE_DB_NAME: str
     NEXT_TOKEN: str
     OUTPUT_DIR: str
 
@@ -28,7 +29,8 @@ class AwsResource():
         self.env_param = env_param
         self.ssm_client = boto3.client("ssm")
         dynamodb = boto3.resource('dynamodb')
-        self.table = dynamodb.Table(self.env_param.DB_NAME)
+        self.property_table = dynamodb.Table(self.env_param.PROPERTY_DB_NAME)
+        self.pagetoken_table = dynamodb.Table(self.env_param.PAGE_TOKE_DB_NAME)
 
     def get_value_from_ssm(self, key: str) -> str:
         value = self.ssm_client.get_parameter(
@@ -37,18 +39,34 @@ class AwsResource():
         )
         return value["Parameter"]["Value"]
 
-    def put_db(self, item: dict) -> None:
-        self.table.put_item(
+    def put_property(self, item: dict) -> None:
+        self.property_table.put_item(
             Item=item
         )
 
-    def has_item(self, key: str) -> bool:
-        res = self.table.get_item(
+    def has_property_item(self, key: str) -> bool:
+        res = self.property_table.get_item(
             Key={
                 "partition_key": key
             }
         )
         return bool(res.get("Item"))
+
+    def get_pagetoken(self) -> str:
+        value = self.pagetoken_table.get_item(
+            Key={
+                "liked_user_id": self.env_param.LIKED_USER_ID
+            }
+        )
+        return value["Item"]["page_token"]
+
+    def put_pagetoken(self, pagetoken: str) -> None:
+        self.pagetoken_table.put_item(
+            Item={
+                "liked_user_id": self.env_param.LIKED_USER_ID,
+                "page_token": pagetoken,
+            }
+        )
 
 
 def to_jst_timezone(timestr: str, format: str) -> datetime.datetime:
@@ -123,10 +141,9 @@ def hashtags_to_str(hashtags: list) -> str:
 
 class Action():
 
-    def __init__(self, env_param: EnvironParamaters, output_dir: Path, next_token: str) -> None:
+    def __init__(self, env_param: EnvironParamaters, output_dir: Path) -> None:
         self._env_param = env_param
         self._output_dir = output_dir
-        self._next_token = next_token
         self._aws_resource = AwsResource(env_param)
 
     def __call__(self) -> None:
@@ -145,7 +162,7 @@ class Action():
         bearer_token = self._aws_resource.get_value_from_ssm(
             self._env_param.BEARER_TOKEN)
         api = TwitterApi(bearer_token=bearer_token)
-        page_token = self._next_token
+        page_token = self._aws_resource.get_pagetoken()
 
         while True:
             ids = api.get_liked_tweets(
@@ -169,8 +186,10 @@ class Action():
                     # Twitter API 周り以外で例外が発生した場合
                     # 先にpage_tokenを表示させる
                     print(f"Current page token is: {page_token}")
+                    self._aws_resource.put_pagetoken(page_token)
                     raise e
             page_token = ids["meta"]["next_token"]
+            self._aws_resource.put_pagetoken(page_token)
             # Too Many Requests 対策
             print(f"sleep at 12 sec... next token is: {page_token}")
             time.sleep(12)
@@ -189,13 +208,13 @@ class Action():
                 continue
             output_file = build_output_path(output_dir, created_at, id, idx)
             # すでに取得済みであれば, 次のtweetへ
-            if self._aws_resource.has_item(output_file.stem):
+            if self._aws_resource.has_property_item(output_file.stem):
                 print(f"skip at {output_file}")
                 continue
             img = download_img(extended_entity["media_url_https"])
             write_time = write_img(output_file, img)
             print(f"write to img -> {output_file}")
-            self._aws_resource.put_db(
+            self._aws_resource.put_property(
                 item={
                     "partition_key": output_file.stem,
                     "created_at": created_at.isoformat(),
@@ -213,14 +232,13 @@ if __name__ == "__main__":
     param = EnvironParamaters(
         BEARER_TOKEN=os.environ["BEARER_TOKEN"],
         LIKED_USER_ID=os.environ["LIKED_USER_ID"],
-        DB_NAME=os.environ["DB_NAME"],
-        NEXT_TOKEN=os.getenv("NEXT_TOKEN", None),
+        PROPERTY_DB_NAME=os.environ["DB_NAME"],
+        PAGE_TOKE_DB_NAME=os.environ("PAGE_TOKE_DB_NAME"),
         OUTPUT_DIR=os.environ["DIR_NAME"]
     )
     action = Action(
         env_param=param,
         output_dir=Path(param.OUTPUT_DIR),
-        next_token=param.NEXT_TOKEN
     )
 
     action()
