@@ -3,8 +3,9 @@ from __future__ import annotations
 import datetime
 from pathlib import Path
 import unittest
-import os
 from unittest import mock
+
+from freezegun import freeze_time
 
 
 class RebuildUrlTest(unittest.TestCase):
@@ -52,4 +53,31 @@ class ToJstTimezoneTest(unittest.TestCase):
         actual = to_jst_timezone(timestr, format)
         # アサーション
         self.assertEqual(str(actual.tzinfo), "UTC+09:00")
+        self.assertEqual(actual, expect)
+
+
+class TwitterToJstTimezone(unittest.TestCase):
+
+    def test_ok(self):
+        # 初期化
+        timestr = "Sat Feb 19 11:11:44 +0000 2022"
+        expect = datetime.datetime(2022, 2, 19, 20, 11, 44).astimezone(
+            datetime.timezone(datetime.timedelta(hours=9)))
+        from run import twitter_to_jst_timezone
+        # テストの実行
+        actual = twitter_to_jst_timezone(timestr)
+        # アサーション
+        self.assertEqual(actual, expect)
+
+
+@freeze_time("2022-02-19 00:00:00+00:00")
+class NowIsofTest(unittest.TestCase):
+
+    def test_ok(self):
+        # 初期化
+        expect = "2022-02-19T00:00:00+09:00"
+        from run import now_isof
+        # テストの実行
+        actual = now_isof()
+        # アサーション
         self.assertEqual(actual, expect)
