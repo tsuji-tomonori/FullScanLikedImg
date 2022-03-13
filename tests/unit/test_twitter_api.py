@@ -251,7 +251,3 @@ class TwitterApiGetStatusesShow(unittest.TestCase):
         # アサーション
         self.assertEqual(e.exception.status_code, 400)
         self.assertEqual(time_sleep_mock.call_count, 0)
-
-
-if __name__ == "__main__":
-    unittest.main()
