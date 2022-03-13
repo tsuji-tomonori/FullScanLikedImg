@@ -70,9 +70,9 @@ class TwitterToJstTimezone(unittest.TestCase):
         self.assertEqual(actual, expect)
 
 
-@freeze_time("2022-02-19 00:00:00+00:00")
 class NowIsofTest(unittest.TestCase):
 
+    @freeze_time("2022-02-19 00:00:00+00:00")
     def test_ok(self):
         # 初期化
         expect = "2022-02-19T00:00:00+09:00"
