@@ -77,8 +77,8 @@ def to_jst_timezone(timestr: str, format: str) -> datetime.datetime:
     return tt.astimezone(jst_zone)
 
 
-def twitter_to_jst_timezone(time_str: str) -> datetime.datetime:
-    return to_jst_timezone(time_str, "%a %b %d %H:%M:%S +0000 %Y")
+def twitter_to_jst_timezone(timestr: str) -> datetime.datetime:
+    return to_jst_timezone(timestr, "%a %b %d %H:%M:%S +0000 %Y")
 
 
 def now_isof() -> str:
