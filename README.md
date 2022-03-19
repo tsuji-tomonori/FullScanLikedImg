@@ -1,58 +1,54 @@
 
-# Welcome to your CDK Python project!
+# FullScanImg
 
-This is a blank project for Python development with CDK.
+特定のTwitterユーザーがいいねした画像を, すべて取得するシステム.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Uses
+- Python 3.7以上
+- AWS
+    - DynamoDB
+    - パラメータストア
+- boto3
+- requests
+- Twitter API
 
-To manually create a virtualenv on MacOS and Linux:
 
-```
-$ python -m venv .venv
-```
+## Quick Start
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+1. 初期構築
+    1. TwitterAPIを取得する
+    1. DynamoDBを2つ作成する(pkeyのみ)
+    1. パラメータストアにTwitterAPIのbearer_tokenをセットする
+    1. DynamoDBに対しread/write権限, パラメータストアに対しread権限のあるロールを作成し, CLIが使えるようにする
+1. このリポジトリをCloneする
+    ```sh
+    $ git clone https://github.com/tsuji-tomonori/FullScanLikedImg.git
+    $ cd ./FullScanLikedImg
+    ```
+1. 必要なライブラリをインストール
+    ```sh
+    $ pip install -r requirements.txt
+    ```
+1. 環境変数の設定
+    ```sh
+    $ export BEARER_TOKEN="YOUR_BEARER_TOKEN_SSM_NAME_HERE"
+    $ export LIKED_USER_ID="YOUR_LIKED_USER_ID_HERE"
+    $ export PROPERTY_DB_NAME="YOUR_PROPERTY_DB_NAME_HERE"
+    $ export PAGE_TOKE_DB_NAME="YOUR_PAGE_TOKE_DB_NAME_HERE"
+    $ export DIR_NAME="YOUR_DIR_NAME_HERE"
+    ```
+1. ツールの実行
+    ```sh
+    $ python run.py
+    ```
 
-```
-$ source .venv/bin/activate
-```
 
-If you are a Windows platform, you would activate the virtualenv like this:
+## Documentation
 
-```
-% .venv\Scripts\activate.bat
-```
+### アーキテクチャー図
+![アーキテクチャー図](./doc/architecture.png)
 
-Once the virtualenv is activated, you can install the required dependencies.
 
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
+## フローチャート図
+[フローチャート図](./doc/main_flow.md)
