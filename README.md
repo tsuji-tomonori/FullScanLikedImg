@@ -1,5 +1,5 @@
 
-# FullScanImg
+# FullScanLikedImg
 
 特定のTwitterユーザーがいいねした画像を, すべて取得するシステム.
 
