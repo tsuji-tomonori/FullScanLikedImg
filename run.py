@@ -83,6 +83,7 @@ def twitter_to_jst_timezone(timestr: str) -> datetime.datetime:
 
 def now_isof() -> str:
     now = datetime.datetime.utcnow()
+    print(f"now: {now_isof}")
     jst_delta = datetime.timedelta(hours=9)
     now += jst_delta
     jst_zone = datetime.timezone(jst_delta)
