@@ -203,13 +203,13 @@ class Action():
         user_screen_name = tweet_info["user"]["screen_name"]
         hashtag = hashtags_to_str(tweet_info["entities"]["hashtags"])
         created_at = twitter_to_jst_timezone(tweet_info["created_at"])
-        # 1ツイート内で投稿されている画像分ループ
+        # 1ツイート内で投稿されているメディア分ループ
         for idx, extended_entity in enumerate(tweet_info["extended_entities"]["media"]):
-            # 投稿されたメディアが画像でない場合, 次のtweetへ
+            # 投稿されたメディアが画像でない場合, 次のメディアへ
             if extended_entity["type"] != "photo":
                 continue
             output_file_stem = build_file_name_stem(id, idx)
-            # すでに取得済みであれば, 次のtweetへ
+            # すでに取得済みであれば, 次のメディアへ
             if self._aws_resource.has_property_item(output_file_stem):
                 print(f"skip at {output_file_stem}")
                 continue
