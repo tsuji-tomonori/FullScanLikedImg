@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime
 import os
+import socket
 import time
 from pathlib import Path
 from typing import NamedTuple
@@ -110,6 +111,12 @@ def download_img(url: str) -> bin:
                 wait_time *= 2
             else:
                 raise e
+
+        except socket.timeout as te:
+            exception = te
+            print(f"start retry wait {wait_time}...")
+            time.sleep(wait_time)
+            wait_time *= 2
     # リトライオーバー
     print("Retry Limit.")
     raise exception
