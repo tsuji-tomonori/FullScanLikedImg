@@ -86,8 +86,11 @@ def now_isof() -> str:
     print(f"now: {now}")
     jst_delta = datetime.timedelta(hours=9)
     now += jst_delta
+    print(f"add jst_delta: {now}")
     jst_zone = datetime.timezone(jst_delta)
-    return now.astimezone(jst_zone).isoformat()
+    result = now.astimezone(jst_zone).isoformat()
+    print(f"result: {result}")
+    return result
 
 
 def write_img(path: Path, data: bin) -> str:
