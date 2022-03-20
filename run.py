@@ -109,6 +109,12 @@ def download_img(url: str) -> bin:
                 print(f"start retry wait {wait_time}...")
                 time.sleep(wait_time)
                 wait_time *= 2
+            elif e.code in [429]:
+                # 固定で300秒まつ
+                exception = e
+                print(f"start retry wait {wait_time}...")
+                time.sleep(wait_time)
+                wait_time += 300
             else:
                 raise e
 
