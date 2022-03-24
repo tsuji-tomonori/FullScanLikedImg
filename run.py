@@ -186,7 +186,7 @@ class Action():
             ids = api.get_liked_tweets(
                 self._env_param.LIKED_USER_ID, page_token)
             # いいねが取得できなかった場合, 処理終了
-            if len(ids["data"]) == 0:
+            if len(ids.get("data", [])) == 0:
                 return
             for data in ids["data"]:
                 try:
