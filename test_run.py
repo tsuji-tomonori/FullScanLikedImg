@@ -169,6 +169,7 @@ class AwsResourceTest(unittest.TestCase):
             PROPERTY_DB_NAME="PROPERTY_DB_NAME",
             PAGE_TOKE_DB_NAME="PAGE_TOKE_DB_NAME",
             OUTPUT_DIR="OUTPUT_DIR",
+            PAGETOKE_RESET="false",
         )
 
         # 安全のためクレデンシャル周りをテスト用に

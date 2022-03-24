@@ -21,6 +21,7 @@ class EnvironParamaters(NamedTuple):
     PROPERTY_DB_NAME: str
     PAGE_TOKE_DB_NAME: str
     OUTPUT_DIR: str
+    PAGETOKE_RESET: bool
 
 
 class AwsResource():
@@ -179,7 +180,9 @@ class Action():
         bearer_token = self._aws_resource.get_value_from_ssm(
             self._env_param.BEARER_TOKEN)
         api = TwitterApi(bearer_token=bearer_token)
-        page_token = self._aws_resource.get_pagetoken()
+        page_token = None
+        if not self._env_param.PAGETOKE_RESET:
+            page_token = self._aws_resource.get_pagetoken()
 
         while True:
             print(f"start get liked tweets at {page_token}")
@@ -253,7 +256,9 @@ if __name__ == "__main__":
         LIKED_USER_ID=os.environ["LIKED_USER_ID"],
         PROPERTY_DB_NAME=os.environ["PROPERTY_DB_NAME"],
         PAGE_TOKE_DB_NAME=os.environ["PAGE_TOKE_DB_NAME"],
-        OUTPUT_DIR=os.environ["DIR_NAME"]
+        OUTPUT_DIR=os.environ["DIR_NAME"],
+        PAGETOKE_RESET=(os.environ["PAGETOKE_RESET"] in [
+                        "true", "True", "TRUE"]),
     )
     action = Action(
         env_param=param,
