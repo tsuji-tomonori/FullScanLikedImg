@@ -37,6 +37,7 @@
     $ export PROPERTY_DB_NAME="YOUR_PROPERTY_DB_NAME_HERE"
     $ export PAGE_TOKE_DB_NAME="YOUR_PAGE_TOKE_DB_NAME_HERE"
     $ export DIR_NAME="YOUR_DIR_NAME_HERE"
+    $ export PAGETOKE_RESET="True or False"
     ```
 1. ツールの実行
     ```sh
