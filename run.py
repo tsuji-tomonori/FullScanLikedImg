@@ -26,10 +26,12 @@ class EnvironParamaters(NamedTuple):
 
 class AwsResource():
 
-    def __init__(self, env_param: EnvironParamaters) -> None:
+    def __init__(self, env_param: EnvironParamaters, session: boto3.Session = None) -> None:
         self.env_param = env_param
-        self.ssm_client = boto3.client("ssm")
-        dynamodb = boto3.resource('dynamodb')
+        if session is None:
+            session = boto3.Session()
+        self.ssm_client = session.client("ssm")
+        dynamodb = session.resource('dynamodb')
         self.property_table = dynamodb.Table(self.env_param.PROPERTY_DB_NAME)
         self.pagetoken_table = dynamodb.Table(self.env_param.PAGE_TOKE_DB_NAME)
 
@@ -159,10 +161,10 @@ def hashtags_to_str(hashtags: list) -> str:
 
 class Action():
 
-    def __init__(self, env_param: EnvironParamaters, output_dir: Path) -> None:
+    def __init__(self, env_param: EnvironParamaters, output_dir: Path, session: boto3.Session = None) -> None:
         self._env_param = env_param
         self._output_dir = output_dir
-        self._aws_resource = AwsResource(env_param)
+        self._aws_resource = AwsResource(env_param, session)
 
     def __call__(self) -> None:
         print(
