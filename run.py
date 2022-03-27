@@ -188,6 +188,7 @@ class Action():
             print(f"start get liked tweets at {page_token}")
             ids = api.get_liked_tweets(
                 self._env_param.LIKED_USER_ID, page_token)
+            is_fin = True
             # いいねが取得できなかった場合, 処理終了
             if len(ids.get("data", [])) == 0:
                 return
@@ -202,7 +203,10 @@ class Action():
                 if "media" not in tweet_info["extended_entities"].keys():
                     continue
                 try:
-                    self._downdload_and_write_db(tweet_info, self._output_dir)
+                    is_skip = self._downdload_and_write_db(
+                        tweet_info, self._output_dir)
+                    if not is_skip:
+                        is_fin = False
                 except Exception as e:
                     # Twitter API 周り以外で例外が発生した場合
                     # 先にpage_tokenを表示させる
@@ -211,6 +215,8 @@ class Action():
                     raise e
             page_token = ids["meta"]["next_token"]
             self._aws_resource.put_pagetoken(page_token)
+            if is_fin:
+                return
 
     def _downdload_and_write_db(self, tweet_info: dict, output_dir: Path) -> None:
         id = tweet_info["id_str"]
@@ -219,6 +225,7 @@ class Action():
         user_screen_name = tweet_info["user"]["screen_name"]
         hashtag = hashtags_to_str(tweet_info["entities"]["hashtags"])
         created_at = twitter_to_jst_timezone(tweet_info["created_at"])
+        is_skip = True
         # 1ツイート内で投稿されているメディア分ループ
         for idx, extended_entity in enumerate(tweet_info["extended_entities"]["media"]):
             # 投稿されたメディアが画像でない場合, 次のメディアへ
@@ -247,6 +254,9 @@ class Action():
             )
             # Too Many Requests 対策
             time.sleep(3)
+            # 1回でもダウンロードした場合False
+            is_skip = False
+        return is_skip
 
 
 if __name__ == "__main__":
