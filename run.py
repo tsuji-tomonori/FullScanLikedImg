@@ -98,7 +98,7 @@ def write_img(path: Path, data: bin) -> str:
     return now_isof()
 
 
-def download_img(url: str) -> bin:
+def download_img(url: str) -> bin | None:
     exception = None
     wait_time = 30
     for _ in range(10):
@@ -118,6 +118,8 @@ def download_img(url: str) -> bin:
                 print(f"start retry wait {wait_time}...")
                 time.sleep(wait_time)
                 wait_time += 300
+            elif e.code == 404:
+                return None
             else:
                 raise e
 
@@ -239,6 +241,8 @@ class Action():
                 print(f"skip at {output_file_stem}")
                 continue
             img = download_img(extended_entity["media_url_https"])
+            if img is None:
+                continue
             output_file_path = make_output_path(
                 output_dir, created_at, id, idx)
             write_time = write_img(output_file_path, img)
